@@ -3,7 +3,7 @@ MODE=`cat /sys/class/display/mode`;
 
 case "$1" in
 "16")
-	BPP=16
+	BPP=32
 	;;
 *)
 	BPP=32
