@@ -15,7 +15,7 @@ diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resour
 index b7ea31b..d6c5b4f 100644
 --- a/addons/resource.language.en_gb/resources/strings.po
 +++ b/addons/resource.language.en_gb/resources/strings.po
-@@ -8325,7 +8325,87 @@ msgctxt "#14277"
+@@ -8325,7 +8325,67 @@ msgctxt "#14277"
  msgid "Allow remote control from applications on other systems"
  msgstr ""
  
@@ -71,16 +71,6 @@ index b7ea31b..d6c5b4f 100644
 +msgstr ""
 +
 +#: system/settings/settings.xml
-+msgctxt "#14288"
-+msgid "Enable HEVC seek workaround"
-+msgstr ""
-+
-+#: system/settings/settings.xml
-+msgctxt "#14289"
-+msgid "Enable this if you have problems with HEVC content after seeking."
-+msgstr ""
-+
-+#: system/settings/settings.xml
 +msgctxt "#14290"
 +msgid "Disable HDMI audio output"
 +msgstr ""
@@ -88,16 +78,6 @@ index b7ea31b..d6c5b4f 100644
 +#: system/settings/settings.xml
 +msgctxt "#14291"
 +msgid "Disable HDMI audio output. Requires a reboot."
-+msgstr ""
-+
-+#: system/settings/settings.xml
-+msgctxt "#14292"
-+msgid "Enable GPU overclock"
-+msgstr ""
-+
-+#: system/settings/settings.xml
-+msgctxt "#14293"
-+msgid "Enable this to overclock the GPU. WARNING! This will increase chipset temperatures. Requires a reboot."
 +msgstr ""
 +
 +#empty strings from id 14294 to 14300
@@ -108,7 +88,7 @@ diff --git a/system/settings/settings.xml b/system/settings/settings.xml
 index 54f7e4c..f5efaed 100755
 --- a/system/settings/settings.xml
 +++ b/system/settings/settings.xml
-@@ -2994,6 +2994,58 @@
+@@ -2994,6 +2994,42 @@
          </setting>
        </group>
      </category>
@@ -139,24 +119,8 @@ index 54f7e4c..f5efaed 100755
 +          <control type="toggle" />
 +        </setting>
 +      </group>
-+      <group id="2" label="14086">
-+        <setting id="coreelec.amlogic.hevcworkaround" type="boolean" label="14288" help="14289">
-+          <requirement>HAVE_AMCODEC</requirement>
-+          <level>3</level>
-+          <default>false</default>
-+          <control type="toggle" />
-+        </setting>
-+      </group>
 +      <group id="3" label="14221">
 +        <setting id="coreelec.amlogic.mutehdmiaudio" type="boolean" label="14290" help="14291">
-+          <requirement>HAVE_AMCODEC</requirement>
-+          <level>3</level>
-+          <default>false</default>
-+          <control type="toggle" />
-+        </setting>
-+      </group>
-+      <group id="4" label="10039">
-+        <setting id="coreelec.amlogic.maxgpuclock" type="boolean" label="14292" help="14293">
 +          <requirement>HAVE_AMCODEC</requirement>
 +          <level>3</level>
 +          <default>false</default>
@@ -171,7 +135,7 @@ diff --git a/xbmc/settings/Settings.cpp b/xbmc/settings/Settings.cpp
 index 829e7b5..58f17c2 100644
 --- a/xbmc/settings/Settings.cpp
 +++ b/xbmc/settings/Settings.cpp
-@@ -393,6 +393,13 @@ const std::string CSettings::SETTING_EVENTLOG_SHOW = "eventlog.show";
+@@ -393,6 +393,11 @@ const std::string CSettings::SETTING_EVENTLOG_SHOW = "eventlog.show";
  const std::string CSettings::SETTING_MASTERLOCK_LOCKCODE = "masterlock.lockcode";
  const std::string CSettings::SETTING_MASTERLOCK_STARTUPLOCK = "masterlock.startuplock";
  const std::string CSettings::SETTING_MASTERLOCK_MAXRETRIES = "masterlock.maxretries";
@@ -179,9 +143,7 @@ index 829e7b5..58f17c2 100644
 +const std::string CSettings::SETTING_COREELEC_AMLOGIC_NOISEREDUCTION = "coreelec.amlogic.noisereduction";
 +const std::string CSettings::SETTING_COREELEC_AMLOGIC_LIMIT8BIT = "coreelec.amlogic.limit8bit";
 +const std::string CSettings::SETTING_COREELEC_AMLOGIC_FORCE422 = "coreelec.amlogic.force422";
-+const std::string CSettings::SETTING_COREELEC_AMLOGIC_HEVCWORKAROUND = "coreelec.amlogic.hevcworkaround";
 +const std::string CSettings::SETTING_COREELEC_AMLOGIC_MUTEHDMIAUDIO = "coreelec.amlogic.mutehdmiaudio";
-+const std::string CSettings::SETTING_COREELEC_AMLOGIC_MAXGPUCLOCK = "coreelec.amlogic.maxgpuclock";
  const std::string CSettings::SETTING_CACHE_HARDDISK = "cache.harddisk";
  const std::string CSettings::SETTING_CACHEVIDEO_DVDROM = "cachevideo.dvdrom";
  const std::string CSettings::SETTING_CACHEVIDEO_LAN = "cachevideo.lan";
@@ -189,7 +151,7 @@ diff --git a/xbmc/settings/Settings.h b/xbmc/settings/Settings.h
 index d0743b3..6b99e6e 100644
 --- a/xbmc/settings/Settings.h
 +++ b/xbmc/settings/Settings.h
-@@ -353,6 +353,13 @@ public:
+@@ -353,6 +353,11 @@ public:
    static const std::string SETTING_MASTERLOCK_LOCKCODE;
    static const std::string SETTING_MASTERLOCK_STARTUPLOCK;
    static const std::string SETTING_MASTERLOCK_MAXRETRIES;
@@ -197,9 +159,7 @@ index d0743b3..6b99e6e 100644
 +  static const std::string SETTING_COREELEC_AMLOGIC_NOISEREDUCTION;
 +  static const std::string SETTING_COREELEC_AMLOGIC_LIMIT8BIT;
 +  static const std::string SETTING_COREELEC_AMLOGIC_FORCE422;
-+  static const std::string SETTING_COREELEC_AMLOGIC_HEVCWORKAROUND;
 +  static const std::string SETTING_COREELEC_AMLOGIC_MUTEHDMIAUDIO;
-+  static const std::string SETTING_COREELEC_AMLOGIC_MAXGPUCLOCK;
    static const std::string SETTING_CACHE_HARDDISK;
    static const std::string SETTING_CACHEVIDEO_DVDROM;
    static const std::string SETTING_CACHEVIDEO_LAN;
@@ -207,7 +167,7 @@ diff --git a/xbmc/windowing/amlogic/WinSystemAmlogic.cpp b/xbmc/windowing/amlogi
 index 0637f83..ca4e2d9 100644
 --- a/xbmc/windowing/amlogic/WinSystemAmlogic.cpp
 +++ b/xbmc/windowing/amlogic/WinSystemAmlogic.cpp
-@@ -82,6 +82,52 @@ CWinSystemAmlogic::~CWinSystemAmlogic()
+@@ -82,6 +82,46 @@ CWinSystemAmlogic::~CWinSystemAmlogic()
  
  bool CWinSystemAmlogic::InitWindowSystem()
  {
@@ -249,12 +209,6 @@ index 0637f83..ca4e2d9 100644
 +  {
 +     CLog::Log(LOGDEBUG, "CWinSystemAmlogic::InitWindowSystem -- muting hdmi audio");
 +     SysfsUtils::SetString("/sys/class/amhdmitx/amhdmitx0/config", "audio_off");
-+  }
-+
-+  if (CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_MAXGPUCLOCK))
-+  {
-+     CLog::Log(LOGDEBUG, "CWinSystemAmlogic::InitWindowSystem -- increasing GPU clock rate");
-+     SysfsUtils::SetString("/sys/class/mpgpu/scale_mode", "2");
 +  }
 +
    m_nativeDisplay = EGL_DEFAULT_DISPLAY;
