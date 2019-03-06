@@ -4,6 +4,8 @@ hdmimode=`cat /sys/class/display/mode`;
 
 SPLASH="/storage/.config/splash/splash-1080.png"
 
+python /usr/bin/set_kd_gfx.py
+
 # Set the variables
 CFG="/storage/.emulationstation/es_settings.cfg"
 SX05RELOG="/storage/sx05re.log"
@@ -64,3 +66,5 @@ fi
 (
   fbi $SPLASH -noverbose > /dev/null 2>&1
 )&
+
+python /usr/bin/set_kd_txt.py
