@@ -83,14 +83,6 @@ index f39a94e..80bcecb 100644
      CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2822,7 +2834,6 @@ void CApplication::Stop(int exitCode)
-     // Needs cleaning up
-     CApplicationMessenger::GetInstance().Stop();
-     m_AppFocused = false;
--    m_ExitCode = exitCode;
-     CLog::Log(LOGNOTICE, "stop all");
- 
-     // cancel any jobs from the jobmanager
 diff --git a/xbmc/Application.h b/xbmc/Application.h
 index 1faf9dd..379d3ca 100644
 --- a/xbmc/Application.h
