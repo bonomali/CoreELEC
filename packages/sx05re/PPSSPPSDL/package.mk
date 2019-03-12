@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="c77af182afcd73370831aa4f2262bf9c1bcda8ac"
+PKG_VERSION="624587c594c48e2a9c9b38c2cc82348829934423"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"
@@ -30,11 +30,25 @@ GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
-  PKG_CMAKE_OPTS_TARGET="-DARMV7=ON \
-						 -DUSING_FBDEV=ON \
-                         -DUSING_EGL=ON \
-                         -DUSING_GLES2=ON \
-                         -DUSING_X11_VULKAN=OFF"
+  PKG_CMAKE_OPTS_TARGET="-DUSE_SYSTEM_FFMPEG=ON"
+
+  if [ "${ARCH}" = "arm" ] && [ ! "${TARGET_CPU}" = "arm1176jzf-s" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DARMV7=ON"
+  elif [ "${TARGET_CPU}" = "arm1176jzf-s" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DARM=ON"
+  fi
+
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DUSING_FBDEV=ON \
+                             -DUSING_EGL=ON \
+                             -DUSING_GLES2=ON"
+  fi
+
+  if [ "${DISPLAYSERVER}" = "x11" ] && [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=ON"
+  else
+    PKG_CMAKE_OPTS_TARGET+=" -DUSING_X11_VULKAN=OFF"
+  fi
 }
 
 pre_make_target() {
@@ -49,4 +63,4 @@ makeinstall_target() {
     cp $PKG_DIR/ppsspp.sh $INSTALL/usr/bin/ppsspp.sh
     cp `find . -name "PPSSPPSDL" | xargs echo` $INSTALL/usr/bin/PPSSPPSDL
     cp -r `find . -name "assets" | xargs echo` $INSTALL/usr/bin/
-}
+} 

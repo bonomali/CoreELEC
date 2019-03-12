@@ -3,10 +3,6 @@
 # Clean cache garbage when boot up.
 rm -rf /storage/.cache/cores/*
 
-# fbset -fb /dev/fb1 -g 1920 1080 1920 2160 32
-# echo 0 > /sys/class/graphics/fb1/free_scale
-# touch /storage/.cache/services/sshd.conf
-
 # Overclocking? 
 echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 echo "performance" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor

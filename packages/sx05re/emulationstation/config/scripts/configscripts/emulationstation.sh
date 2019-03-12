@@ -8,6 +8,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
+# Modified 2019 by Shanti Gilbert for Sx05RE/CoreELEC (https//www.coreelec.org)
 
 function onstart_emulationstation_joystick() {
     local es_conf="$home/.emulationstation/es_input.cfg"
@@ -48,13 +49,7 @@ function map_emulationstation_joystick() {
 
     local key
     case "$input_name" in
-        leftbottom|leftshoulder)
-            key="pageup"
-            ;;
-        rightbottom|rightshoulder)
-            key="pagedown"
-            ;;
-        up|right|down|left|start|select|x|y|leftanalogup|leftanalogright|leftanalogdown|leftanalogleft|rightanalogup|rightanalogright|rightanalogdown|rightanalogleft)
+        up|right|down|left|start|select|x|y|leftanalogup|leftanalogright|leftanalogdown|leftanalogleft|rightanalogup|rightanalogright|rightanalogdown|rightanalogleft|hotkeyenable|leftshoulder|lefttrigger|rightshoulder|righttrigger)
             key="$input_name"
             ;;
         a)
